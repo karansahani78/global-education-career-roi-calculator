@@ -154,8 +154,8 @@ flowchart LR
 │       ├── dto/                        # Request/response DTOs
 │       └── config/                     # Configuration/security/exception handling
 ├── docs/                               # Academic documentation
-│   ├── Project-Report on ROI CALCULATOR.pdf
-│   └── PROJECT_SUMMARY.md
+│   ├── Passau_Final_Year_Project_Summary_Karan_Sahani.pdf
+│   └── Project-Report on ROI CALCULATOR.pdf
 └── frontend/                           # React + TypeScript frontend
     ├── package.json
     ├── src/
@@ -172,9 +172,9 @@ The complete submitted academic report is available in the repository:
 
 - [docs/Project-Report on ROI CALCULATOR.pdf](<./docs/Project-Report on ROI CALCULATOR.pdf>)
 
-For a concise academic overview, see:
+For the Passau application project summary, see:
 
-- [docs/PROJECT_SUMMARY.md](./docs/PROJECT_SUMMARY.md)
+- [docs/Passau_Final_Year_Project_Summary_Karan_Sahani.pdf](./docs/Passau_Final_Year_Project_Summary_Karan_Sahani.pdf)
 
 The original report file has been preserved and is not modified by this documentation update.
 
@@ -240,3 +240,4 @@ npm run dev
 ```
 
 For Docker-based backend setup, see [`backend/docker-compose.yml`](./backend/docker-compose.yml). Before using Docker Compose outside local development, replace default credentials and review environment-specific settings.
+ environment-specific settings.
