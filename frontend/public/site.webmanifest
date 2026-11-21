@@ -1,0 +1,11 @@
+{
+  "name": "EduROI — College Major ROI & Salary Calculator",
+  "short_name": "EduROI",
+  "icons": [
+    { "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0E7490",
+  "background_color": "#f7f7f4",
+  "display": "standalone"
+}
