@@ -1,20 +1,3 @@
-# Global Education & Career ROI Calculator
-
-> This repository contains the full project: **backend** (Spring Boot API), **frontend** (React/Vite app), and **docs**.  
-> The detailed backend documentation is below for quick visibility when opening the repo.
-
-## Repository Layout
-
-| Path | Description |
-| --- | --- |
-| [`backend/`](backend/) | Spring Boot 3.2 / Java 17 REST API, PostgreSQL, Docker, seed data |
-| [`frontend/`](frontend/) | React 18 + TypeScript + Vite UI |
-| [`docs/`](docs/) | Project report and documentation assets |
-
-**Quick start:** run backend from `backend/` and frontend from `frontend/`. See [`frontend/README.md`](frontend/README.md) for frontend-specific commands.
-
----
-
 # 🎓 Global Education & Career ROI Calculator - Backend
 
 > **Production-Ready, Million-Dollar SaaS Backend**  
