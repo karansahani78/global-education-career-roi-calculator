@@ -1,615 +1,242 @@
-# 🎓 Global Education & Career ROI Calculator - Backend
+# Global Education & Career ROI Calculator
 
-> **Production-Ready, Million-Dollar SaaS Backend**  
-> Calculate Return on Investment for Education Worldwide
+*A Full-Stack Education Return on Investment Analysis Platform*
 
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)]()
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.2-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 
-## 📋 Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [Monetization Strategy](#monetization-strategy)
-- [SEO Strategy](#seo-strategy)
-- [Scaling](#scaling)
+## Academic Project Summary / Abstract
 
----
+The Global Education & Career ROI Calculator is a B.Tech final-year academic project developed at Noida International University, School of Engineering and Technology, in the Department of Computer Science and Engineering during the 2025–2026 academic year. The project addresses the difficulty students and families face when evaluating higher education as a financial decision. Tuition fees, living costs, opportunity costs, tax assumptions, and post-graduation earnings vary widely across countries, institutions, and academic disciplines, making manual comparison unreliable.
 
-## 🌟 Overview
+This project implements a full-stack decision-support platform for estimating and comparing education return on investment. The backend is built with Java 17 and Spring Boot 3.2, exposing REST APIs for ROI calculation, simulation, comparison, shareable results, reference data, SEO page data, career intelligence, decision confidence, degree-worth-it insights, and PDF report generation. PostgreSQL is used for persistent storage through Spring Data JPA and Hibernate. The frontend is implemented with React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, TanStack Query, and Recharts to provide calculator workflows, result visualisation, comparison views, and reference-data exploration.
 
-A globally-scalable RESTful backend for calculating education ROI across:
-- **195+ countries**
-- **1000+ universities**
-- **500+ majors/fields of study**
-- **Multiple degree levels** (Bachelor's, Master's, PhD, etc.)
-- **150+ currencies** with real-time exchange rates
+The repository contains the submitted 40-page final-year project report, backend source code, frontend source code, and deployment configuration. The system is presented as an academic engineering project; revenue, traffic, and large-scale deployment targets mentioned in planning documents are treated as future or proposed goals unless verified in the implementation.
 
-### Key Metrics Target
-- **1M+ monthly users**
-- **$10K+ monthly AdSense revenue**
-- **$50K+ annual affiliate revenue**
-- **10K+ leads per month**
+## Problem Statement
 
----
+Higher education decisions often involve substantial long-term financial commitment. Prospective students may compare institutions based on reputation or tuition alone, without a consistent way to evaluate total education cost, foregone income, expected post-study earnings, break-even period, or net financial return. The problem addressed by this project is the lack of an accessible, structured platform that combines financial modelling with country, university, major, and currency reference data to support education pathway decisions.
 
-## ✨ Features
+## Project Objectives
 
-### Core Functionality
-- ✅ **ROI Calculation Engine** - Comprehensive financial calculations
-- ✅ **Multi-Currency Support** - Convert between 150+ currencies
-- ✅ **Comparison Tool** - Compare countries, universities, majors
-- ✅ **Shareable Results** - UUID-based shareable calculation links
-- ✅ **Historical Data** - Track and analyze calculation trends
+The following objectives are based on the submitted project report and are presented as project goals:
 
-### Programmatic SEO
-- ✅ **Dynamic SEO Pages** - `/roi/{country}/{major}` patterns
-- ✅ **Metadata Generation** - Auto-generate titles, descriptions
-- ✅ **FAQ Schema** - Structured data for rich snippets
-- ✅ **Sitemap Generation** - Automatic XML sitemap
-- ✅ **Pre-filled Calculators** - SEO pages with smart defaults
+- Design and implement a multi-variable education ROI computation engine using financial formulas and precise arithmetic.
+- Build a layered Spring Boot REST API with separation of controller, service, repository, DTO, and entity responsibilities.
+- Persist calculation and reference data in PostgreSQL, including support for shareable calculation records.
+- Support reference data for countries, currencies, majors, degree levels, universities, and related financial inputs.
+- Provide comparison and decision-support functionality for evaluating alternative education pathways.
+- Implement supporting modules for programmatic SEO/content delivery, monetisation-ready data structures, and deployment configuration.
+- Apply validation, security, documentation, and production-oriented engineering practices appropriate for a scalable web application.
 
-### Monetization Features
-- ✅ **Ad Zones** - Strategic AdSense placement points
-- ✅ **Affiliate Integration** - University/course recommendations
-- ✅ **Lead Capture** - Email collection with user consent
-- ✅ **Analytics Tracking** - Anonymous usage statistics
+## Methodology and System Implementation
 
-### Performance & Scale
-- ✅ **Horizontal Scaling** - Stateless architecture
-- ✅ **Caching** - Redis-ready caching layer
-- ✅ **Database Indexing** - Optimized queries
-- ✅ **Rate Limiting** - API protection
-- ✅ **Health Checks** - Production monitoring
+### Development Approach
 
----
+The project was implemented as a full-stack web application with a REST API backend and a single-page frontend. The codebase follows a layered architecture: controllers handle HTTP requests, services contain business logic, repositories manage persistence, and DTOs/entities define API and database models. The submitted report describes the project as a production-oriented academic prototype; this README distinguishes implemented features from planned or proposed extensions.
 
-## 🛠️ Tech Stack
+### Frontend
+
+The frontend in [`frontend/`](./frontend/) is a React 18 + TypeScript application built with Vite. It uses React Router for routing, TanStack Query for API state management, Axios for HTTP requests, Tailwind CSS and shadcn/ui for UI components, Recharts for charts, Framer Motion for animations, and i18next for internationalisation support. Implemented routes include calculator, results, share redirect, comparison, countries, majors, degree-worth-it insight, SEO pages, blog pages, and legal pages.
+
+### Backend REST API
+
+The backend in [`backend/`](./backend/) is a Spring Boot 3.2 application running on Java 17. It exposes REST endpoints under `/api/v1` for ROI calculation, simulation, comparison, report generation, reference data, SEO pages, career intelligence, decision confidence, and degree-worth-it insights. OpenAPI/Swagger documentation is configured through springdoc.
+
+### Service and Data Layers
+
+Business logic is implemented in service classes such as ROI calculation, simulation, comparison, career intelligence, decision confidence, degree-worth-it, SEO, and report services. Spring Data JPA repositories provide database access. Entities and DTOs model reference data, calculations, SEO content, and supporting domain objects.
+
+### Database and Persistence
+
+PostgreSQL is the configured primary database. Hibernate/JPA manages object-relational mapping. SQL seed files are included for reference and supplemental data. Redis is present as an optional dependency/configuration for caching, but it is not required to understand the core project design. H2 is included as a test dependency.
+
+### Financial Calculation Engine
+
+The ROI-related implementation includes cost, projection, break-even, and comparison logic in backend services. The submitted report describes compound financial modelling, inflation/tax adjustments, opportunity cost, and year-by-year breakdowns. Because this repository is being presented for academic review, detailed financial claims should be interpreted in line with the submitted report and the current source code.
+
+## Major Features
+
+| Area | Status | Notes |
+| --- | --- | --- |
+| ROI calculation API (`/api/v1/roi/calculate`, `/quick-estimate`, `/share/{uuid}`) | Implemented | Controller and service classes are present in the backend. |
+| ROI simulation (`/api/v1/roi/simulate`) | Implemented | Simulation controller/service and DTOs are present. |
+| Comparison (`/api/v1/compare`) | Implemented | Comparison endpoint and frontend compare page are present. |
+| Reference data APIs | Implemented | Countries, majors, degree levels, universities, and currencies endpoints are present. |
+| PDF ROI report (`/api/v1/reports/roi/pdf/{uuid}`) | Implemented | OpenPDF dependency and report service/controller are present. |
+| Career intelligence, decision confidence, degree-worth-it insights | Implemented in codebase | Endpoints and frontend/result components are present; validation depth should be reviewed as academic prototype functionality. |
+| Programmatic SEO endpoints/pages | Partially implemented / prototype | SEO controller, entities, repositories, seed data, and frontend SEO page exist; large-scale generation targets are not presented as achieved results. |
+| Ad zones / affiliate / lead entities | Partially implemented / data-model support | Related entities/repositories exist; no production monetisation results are claimed. |
+| Authentication/premium tier | Proposed / limited | Spring Security and JWT dependencies exist, but the project should not be presented as a complete authenticated product. |
+| Live exchange rates, ML salary prediction, production-scale traffic | Proposed / future work | Mentioned as roadmap or design targets, not verified achieved outcomes. |
+
+## Technical Architecture
+
+```mermaid
+flowchart LR
+    U[User / Browser] --> F[Frontend\nReact + TypeScript + Vite]
+    F -->|HTTP/JSON| API[Backend REST API\nSpring Boot]
+    API --> C[Controller Layer]
+    C --> S[Service / Business Logic]
+    S --> R[Repository Layer\nSpring Data JPA]
+    R --> DB[(PostgreSQL)]
+    S --> P[PDF / Report Generation\nOpenPDF]
+    S --> REF[Reference & SEO Data]
+    API --> DOC[OpenAPI / Swagger]
+```
+
+## Technology Stack
+
+### Frontend
+
+| Technology | Version / Notes | Evidence |
+| --- | --- | --- |
+| React | 18.3.1 | [`frontend/package.json`](./frontend/package.json) |
+| TypeScript | 5.8.3 | [`frontend/package.json`](./frontend/package.json) |
+| Vite | 5.4.19 | [`frontend/package.json`](./frontend/package.json) |
+| Tailwind CSS | 3.4.17 | [`frontend/package.json`](./frontend/package.json) |
+| shadcn/ui / Radix UI | Radix components present | [`frontend/package.json`](./frontend/package.json) |
+| TanStack Query | 5.83.0 | [`frontend/package.json`](./frontend/package.json) |
+| Recharts | 2.15.4 | [`frontend/package.json`](./frontend/package.json) |
+| Vitest | 3.2.4 | [`frontend/package.json`](./frontend/package.json) |
 
 ### Backend
-- **Java 17** - Modern Java features
-- **Spring Boot 3.2** - Framework
-- **Spring Data JPA** - ORM layer
-- **Hibernate** - JPA implementation
-- **PostgreSQL 16** - Primary database
-- **Redis** - Caching (optional)
 
-### Development Tools
-- **Maven** - Build tool
-- **Lombok** - Reduce boilerplate
-- **MapStruct** - DTO mapping
-- **Swagger/OpenAPI** - API documentation
+| Technology | Version / Notes | Evidence |
+| --- | --- | --- |
+| Java | 17 | [`backend/pom.xml`](./backend/pom.xml) |
+| Spring Boot | 3.2.2 | [`backend/pom.xml`](./backend/pom.xml) |
+| Spring Web / Validation / Security / Actuator | Spring Boot starters | [`backend/pom.xml`](./backend/pom.xml) |
+| Spring Data JPA / Hibernate | JPA starter | [`backend/pom.xml`](./backend/pom.xml) |
+| PostgreSQL JDBC Driver | Runtime dependency | [`backend/pom.xml`](./backend/pom.xml) |
+| Springdoc OpenAPI | 2.3.0 | [`backend/pom.xml`](./backend/pom.xml) |
+| OpenPDF | 1.3.30 | [`backend/pom.xml`](./backend/pom.xml) |
 
-### Deployment
-- **Docker** - Containerization
-- **Docker Compose** - Local development
-- **AWS/GCP/Azure** - Cloud deployment ready
+### Database
 
----
+| Technology | Role | Evidence |
+| --- | --- | --- |
+| PostgreSQL | Primary application database | [`backend/pom.xml`](./backend/pom.xml), [`backend/docker-compose.yml`](./backend/docker-compose.yml) |
+| Redis | Optional cache dependency/service | [`backend/pom.xml`](./backend/pom.xml), [`backend/docker-compose.yml`](./backend/docker-compose.yml) |
+| H2 | Test dependency | [`backend/pom.xml`](./backend/pom.xml) |
 
-## 🏗️ Architecture
+### Development and Deployment Tools
 
+| Tool | Purpose | Evidence |
+| --- | --- | --- |
+| Maven | Backend build and dependency management | [`backend/pom.xml`](./backend/pom.xml) |
+| npm | Frontend package management | [`frontend/package.json`](./frontend/package.json) |
+| Docker / Docker Compose | Local containerised setup | [`backend/Dockerfile`](./backend/Dockerfile), [`backend/docker-compose.yml`](./backend/docker-compose.yml) |
+| Spring Actuator | Health/info endpoints | [`backend/pom.xml`](./backend/pom.xml) |
+| Swagger UI | API documentation UI | [`backend/pom.xml`](./backend/pom.xml) |
+
+## Repository Structure
+
+```text
+.
+├── README.md                           # Root academic/project documentation
+├── .env.example                        # Root environment variable example
+├── .gitignore                          # Git ignore rules
+├── backend/                            # Spring Boot backend
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── pom.xml
+│   ├── README.md
+│   └── src/main/java/com/roicalculator/
+│       ├── controller/                 # REST controllers
+│       ├── service/                    # Business logic
+│       ├── repository/                 # Spring Data JPA repositories
+│       ├── domain/entity/              # JPA entities
+│       ├── dto/                        # Request/response DTOs
+│       └── config/                     # Configuration/security/exception handling
+├── docs/                               # Academic documentation
+│   ├── Project-Report on ROI CALCULATOR.pdf
+│   └── PROJECT_SUMMARY.md
+└── frontend/                           # React + TypeScript frontend
+    ├── package.json
+    ├── src/
+    │   ├── pages/                      # Route-level pages
+    │   ├── components/                 # UI and feature components
+    │   ├── lib/                        # API/utilities
+    │   └── test/                       # Frontend tests
+    └── public/                         # Static assets
 ```
-┌─────────────────────────────────────────┐
-│           Client Layer                  │
-│   (Next.js, React, Mobile Apps)         │
-└─────────────────────────────────────────┘
-                  ↓
-┌─────────────────────────────────────────┐
-│         API Gateway / CDN               │
-│      (Cloudflare, AWS CloudFront)       │
-└─────────────────────────────────────────┘
-                  ↓
-┌─────────────────────────────────────────┐
-│       Spring Boot Application           │
-│                                          │
-│  ┌──────────┐  ┌──────────┐            │
-│  │Controller│→ │ Service  │            │
-│  └──────────┘  └──────────┘            │
-│       ↓             ↓                   │
-│  ┌──────────┐  ┌──────────┐            │
-│  │   DTO    │  │  Entity  │            │
-│  └──────────┘  └──────────┘            │
-│       ↓             ↓                   │
-│  └────────────────────────────┘        │
-│  │   Repository (Spring Data)  │        │
-│  └────────────────────────────┘        │
-└─────────────────────────────────────────┘
-                  ↓
-┌─────────────────────────────────────────┐
-│         PostgreSQL Database              │
-│      + Redis Cache (Optional)            │
-└─────────────────────────────────────────┘
-```
 
-### Key Design Patterns
-- **Layered Architecture** - Controller → Service → Repository
-- **DTO Pattern** - Separate API contracts from entities
-- **Builder Pattern** - Clean object construction
-- **Repository Pattern** - Data access abstraction
+## Complete Final-Year Project Report
 
----
+The complete submitted academic report is available in the repository:
 
-## 🚀 Getting Started
+- [docs/Project-Report on ROI CALCULATOR.pdf](<./docs/Project-Report on ROI CALCULATOR.pdf>)
 
-### Prerequisites
-- Java 17 or higher
-- Maven 3.8+
-- PostgreSQL 16
-- Docker & Docker Compose (optional)
+For a concise academic overview, see:
 
-### Local Development (Docker)
+- [docs/PROJECT_SUMMARY.md](./docs/PROJECT_SUMMARY.md)
 
-1. **Clone the repository**
+The original report file has been preserved and is not modified by this documentation update.
+
+## Source Code
+
+- Backend source: [`backend/src/main/java/com/roicalculator`](./backend/src/main/java/com/roicalculator)
+- Frontend source: [`frontend/src`](./frontend/src)
+- Backend README: [`backend/README.md`](./backend/README.md)
+- Frontend README: [`frontend/README.md`](./frontend/README.md)
+- Docker configuration: [`backend/Dockerfile`](./backend/Dockerfile), [`backend/docker-compose.yml`](./backend/docker-compose.yml)
+- API documentation (when backend runs locally): `http://localhost:8080/swagger-ui.html`
+
+## Live Demonstration
+
+No verified public frontend or backend deployment URL was identified in the repository configuration during this documentation review. The repository includes local Docker/development configuration, but a live demo link is omitted rather than inferred.
+
+## Testing
+
+Evidence of tests currently present in the repository:
+
+- Frontend Vitest tests: [`frontend/src/test/api.test.ts`](./frontend/src/test/api.test.ts), [`frontend/src/test/example.test.ts`](./frontend/src/test/example.test.ts), [`frontend/src/test/theme.test.tsx`](./frontend/src/test/theme.test.tsx)
+- Backend test dependencies are configured in [`backend/pom.xml`](./backend/pom.xml), including `spring-boot-starter-test` and H2.
+
+No claim is made that comprehensive integration, performance, security, or load testing has been completed unless separately documented with evidence.
+
+## Limitations and Future Improvements
+
+As documented in the submitted report and reflected by the current repository state:
+
+- **Data freshness:** Exchange rates, salary statistics, and cost-of-living data may require periodic updates or live integrations.
+- **Authentication scope:** Security/JWT dependencies exist, but a complete end-user authentication/premium flow should not be assumed.
+- **Scalability claims:** Large-scale traffic, SEO page-count, and revenue targets are planning goals, not verified achieved results.
+- **Validation depth:** Financial outputs should be validated against authoritative datasets before external production use.
+- **Deployment hardening:** Production deployment would require managed secrets, secure CORS/origin configuration, HTTPS, monitoring, backups, and environment-specific configuration.
+
+## Team and Academic Authorship
+
+The submitted final-year project report documents this project as a group academic submission:
+
+- **Karan Sahani** — BT/CS/2201/085
+- **Minhaj Ahmad** — BT/CS/2201/099
+- **Bittu Pd Mandal** — BT/CS/2201/055
+
+**Project guide:** Ms. Jyoti Mahur, Assistant Professor, Department of Computer Science and Engineering, Noida International University.
+
+This repository preserves the original group authorship. Individual contribution details for University of Passau application forms should be provided separately by the applicant and should not be inferred from this README.
+
+## Local Development
+
+### Backend
+
 ```bash
-git clone https://github.com/yourusername/roi-calculator-backend.git
-cd roi-calculator-backend
-```
-
-2. **Start services**
-```bash
-docker-compose up -d
-```
-
-3. **Access the application**
-- API: http://localhost:8080
-- Swagger UI: http://localhost:8080/swagger-ui.html
-- pgAdmin: http://localhost:5050
-
-### Manual Setup
-
-1. **Set up PostgreSQL**
-```sql
-CREATE DATABASE roi_calculator_db;
-CREATE USER roi_user WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE roi_calculator_db TO roi_user;
-```
-
-2. **Update application.properties**
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/roi_calculator_db
-spring.datasource.username=roi_user
-spring.datasource.password=your_password
-```
-
-3. **Start the backend once to let Hibernate create the schema**
-```bash
+cd backend
 mvn spring-boot:run
 ```
 
-4. **Load the reference data** (run both files in order; both are idempotent)
+### Frontend
+
 ```bash
-psql -U roi_user -d roi_calculator_db -f src/main/resources/db/seed_reference_data.sql
-psql -U roi_user -d roi_calculator_db -f src/main/resources/db/seed_supplemental.sql
+cd frontend
+npm install
+npm run dev
 ```
 
-   The base seed provides currencies, countries, majors, universities and costs. The
-   supplemental seed completes coverage: 100 majors, 889 universities, 16,219 programmes,
-   242,100 salary records, loan rules and cost-of-living for every country, plus 22,781
-   programmatic SEO pages with FAQs.
-
-5. **Rebuild and run**
-```bash
-mvn clean install
-mvn spring-boot:run
-```
-
----
-
-## 📚 API Documentation
-
-### Base URL
-```
-Development: http://localhost:8080/api/v1
-Production: https://api.roicalculator.com/api/v1
-```
-
-### Authentication
-Currently public API. JWT authentication ready for premium features.
-
-### Core Endpoints
-
-#### 1. Calculate ROI
-```http
-POST /api/v1/roi/calculate
-Content-Type: application/json
-
-{
-  "countryCode": "USA",
-  "majorId": 1,
-  "degreeLevelId": 1,
-  "tuitionAnnual": 50000,
-  "livingCostAnnual": 20000,
-  "durationYears": 4,
-  "expectedSalaryAfter": 80000,
-  "currentSalary": 40000,
-  "inflationRate": 3.0,
-  "taxRate": 25.0,
-  "calculationYears": 10,
-  "currencyCode": "USD"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "uuid": "550e8400-e29b-41d4-a716-446655440000",
-    "shareableUrl": "/share/550e8400-e29b-41d4-a716-446655440000",
-    "inputSummary": {
-      "country": "United States",
-      "major": "Computer Science",
-      "degreeLevel": "Bachelor's",
-      "durationYears": 4,
-      "currencyCode": "USD",
-      "currencySymbol": "$"
-    },
-    "costBreakdown": {
-      "tuitionTotal": 200000.00,
-      "livingCostTotal": 80000.00,
-      "totalEducationCost": 280000.00,
-      "opportunityCost": 160000.00,
-      "totalInvestment": 440000.00
-    },
-    "roiResults": {
-      "netRoi": 360000.00,
-      "roiPercentage": 81.82,
-      "breakEvenYears": 7.5,
-      "annualizedReturn": 8.18,
-      "verdict": "Good"
-    },
-    "yearlyBreakdown": [...]
-  }
-}
-```
-
-#### 2. Get Countries
-```http
-GET /api/v1/data/countries
-```
-
-#### 3. Get Majors
-```http
-GET /api/v1/data/majors?category=STEM
-```
-
-#### 4. Get SEO Page Data
-```http
-GET /api/v1/seo/pages/roi-usa-computer-science
-```
-
-### Full API Documentation
-Visit **Swagger UI**: http://localhost:8080/swagger-ui.html
-
----
-
-## 🚀 Deployment
-
-### Docker Deployment
-
-1. **Build image**
-```bash
-docker build -t roi-calculator:latest .
-```
-
-2. **Run container**
-```bash
-docker run -p 8080:8080 \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://your-db:5432/roi_calculator_db \
-  -e SPRING_DATASOURCE_USERNAME=roi_user \
-  -e SPRING_DATASOURCE_PASSWORD=your_password \
-  roi-calculator:latest
-```
-
-### AWS Deployment
-
-#### Using AWS Elastic Beanstalk
-```bash
-# Initialize EB
-eb init -p docker roi-calculator
-
-# Create environment
-eb create production-env
-
-# Deploy
-eb deploy
-```
-
-#### Using AWS ECS
-1. Push image to ECR
-2. Create ECS task definition
-3. Create ECS service
-4. Set up Application Load Balancer
-5. Configure Auto Scaling
-
-### Environment Variables (Production)
-```bash
-SPRING_PROFILES_ACTIVE=prod
-SPRING_DATASOURCE_URL=jdbc:postgresql://rds-endpoint:5432/roi_db
-SPRING_DATASOURCE_USERNAME=roi_user
-SPRING_DATASOURCE_PASSWORD=<from-secrets-manager>
-APP_CORS_ALLOWED_ORIGINS=https://yourdomain.com
-APP_MONETIZATION_ADSENSE_PUBLISHER_ID=ca-pub-xxxxxxxxx
-```
-
----
-
-## 💰 Monetization Strategy
-
-### 1. Google AdSense
-**Target: $10K+ monthly revenue**
-
-- **Ad Placement Zones**:
-  - Header banner (Desktop & Mobile)
-  - Sidebar (Desktop)
-  - Below calculator form
-  - In-content (within results)
-  - Footer
-
-- **Optimization**:
-  - High-traffic SEO pages
-  - Sticky ads on scroll
-  - Auto ads for optimal placement
-  - A/B testing different layouts
-
-- **API Integration**:
-  ```json
-  GET /api/v1/monetization/ad-zones
-  {
-    "zones": [
-      {
-        "name": "below_calculator",
-        "type": "adsense",
-        "adUnitId": "ca-pub-xxx/123456",
-        "placement": "responsive"
-      }
-    ]
-  }
-  ```
-
-### 2. Affiliate Marketing
-**Target: $50K+ annual revenue**
-
-- **University Partnerships** - Application referrals (20-30% commission)
-- **Online Course Platforms** - Udemy, Coursera, edX (5-15% commission)
-- **Student Services** - Accommodation, insurance, loans
-- **Study Abroad Agencies** - Country-specific partners
-
-- **API Endpoint**:
-  ```json
-  GET /api/v1/recommendations/country/USA/major/1
-  {
-    "universities": [...],
-    "courses": [...],
-    "affiliateProducts": [
-      {
-        "name": "Coursera Computer Science Specialization",
-        "url": "https://affiliate-link.com",
-        "commission": 15.0
-      }
-    ]
-  }
-  ```
-
-### 3. Lead Generation
-**Target: 10K+ leads/month**
-
-- **Email Capture** - After calculation completion
-- **Newsletter Signup** - Study abroad tips, scholarship alerts
-- **Partner Universities** - Sell qualified leads ($50-200 per lead)
-- **Career Coaching Services** - Premium consultation upsell
-
-- **Lead API**:
-  ```json
-  POST /api/v1/leads/capture
-  {
-    "email": "student@example.com",
-    "interestedIn": "Computer Science in USA",
-    "calculationUuid": "550e8400-..."
-  }
-  ```
-
-### 4. Premium Features (Future)
-- Advanced comparison tools
-- Detailed career path analysis
-- Scholarship matching
-- 1-on-1 counseling
-
----
-
-## 🔍 SEO Strategy
-
-### Programmatic SEO Implementation
-
-#### Page Template Pattern
-```
-/roi/{country}/{major}
-/roi/{country}/{degree-level}
-/roi/{country}/{major}/{university}
-/compare/{country-a}-vs-{country-b}/{major}
-```
-
-#### Example Pages (Auto-Generated)
-- `/roi/usa/computer-science` → 200K searches/month
-- `/roi/canada/mba` → 80K searches/month
-- `/roi/uk/nursing` → 120K searches/month
-- `/roi/australia/engineering` → 95K searches/month
-
-#### SEO Metadata Generation
-```java
-@Service
-public class SeoService {
-    public SeoPage generatePage(Country country, Major major) {
-        return SeoPage.builder()
-            .slug("roi-" + country.getCode() + "-" + major.getSlug())
-            .metaTitle(major.getName() + " ROI in " + country.getName() + " | Calculator")
-            .metaDescription("Calculate your ROI for " + major.getName() + 
-                           " in " + country.getName() + ". Get salary projections, costs, and break-even analysis.")
-            .h1Title("ROI Calculator: " + major.getName() + " in " + country.getName())
-            .build();
-    }
-}
-```
-
-#### Target Keywords
-- "roi calculator for education"
-- "is [major] worth it in [country]"
-- "[major] salary in [country]"
-- "cost of studying [major] in [country]"
-- "[degree] ROI calculator"
-
-#### Content Strategy
-1. **Auto-Generated Pages**: 195 countries × 500 majors = **97,500 pages**
-2. **FAQ Schema**: Rich snippets for better CTR
-3. **Internal Linking**: Related majors, countries, universities
-4. **Fresh Content**: Weekly blog posts about education trends
-
----
-
-## 📈 Scaling Strategy
-
-### Horizontal Scaling
-- **Stateless Design** - No session state
-- **Load Balancer** - Distribute traffic across multiple instances
-- **Database Connection Pooling** - HikariCP configuration
-- **Caching Layer** - Redis for frequently accessed data
-
-### Performance Optimization
-```properties
-# Hibernate Batching
-spring.jpa.properties.hibernate.jdbc.batch_size=20
-spring.jpa.properties.hibernate.order_inserts=true
-
-# Connection Pool
-spring.datasource.hikari.maximum-pool-size=20
-spring.datasource.hikari.minimum-idle=5
-
-# Caching
-spring.cache.type=redis
-spring.cache.redis.time-to-live=3600000
-```
-
-### Database Optimization
-- **Indexing**: All foreign keys, search columns
-- **Partitioning**: Calculations table by date
-- **Read Replicas**: Separate read/write databases
-- **Query Optimization**: Use EXPLAIN ANALYZE
-
-### CDN Strategy
-- Static assets via CloudFlare/CloudFront
-- API response caching for public endpoints
-- Geographic distribution
-
-### Monitoring
-- **APM**: New Relic, DataDog
-- **Logs**: ELK Stack (Elasticsearch, Logstash, Kibana)
-- **Metrics**: Prometheus + Grafana
-- **Alerts**: PagerDuty for critical issues
-
----
-
-## 📊 Analytics & Tracking
-
-### User Analytics
-```sql
--- Most popular majors
-SELECT major_id, COUNT(*) as calc_count
-FROM roi_calculations
-GROUP BY major_id
-ORDER BY calc_count DESC
-LIMIT 10;
-
--- Traffic by country
-SELECT user_country_code, COUNT(*) as visits
-FROM roi_calculations
-WHERE calculated_at >= CURRENT_DATE - INTERVAL '30 days'
-GROUP BY user_country_code;
-```
-
-### Conversion Tracking
-- Calculator usage → Lead capture: Target 15%
-- Page views → Calculation: Target 25%
-- Calculation → Share: Target 10%
-
----
-
-## 🔐 Security
-
-### Implementation
-- **Input Validation**: Bean Validation annotations
-- **SQL Injection**: Parameterized queries (JPA)
-- **CORS**: Configured for allowed origins
-- **Rate Limiting**: IP-based throttling
-- **HTTPS Only**: Force SSL in production
-- **Secrets Management**: AWS Secrets Manager/Vault
-
-### GDPR Compliance
-- Anonymous calculations (no PII required)
-- Optional email with explicit consent
-- Data retention policy: 2 years
-- Right to deletion endpoint
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
----
-
-## 📞 Support
-
-- **Email**: support@roicalculator.com
-- **Documentation**: https://docs.roicalculator.com
-- **Issues**: GitHub Issues
-
----
-
-## 📄 License
-
-Proprietary - All Rights Reserved
-
-Copyright © 2024 ROI Calculator Inc.
-
----
-
-## 🎯 Roadmap
-
-### Phase 1 (Q1 2024) ✅
-- [x] Core ROI calculation engine
-- [x] Multi-currency support
-- [x] Basic API endpoints
-- [x] Database schema
-
-### Phase 2 (Q2 2024)
-- [ ] Programmatic SEO pages (10,000+ pages)
-- [ ] Comparison tool
-- [ ] Advanced analytics
-- [ ] Mobile app API support
-
-### Phase 3 (Q3 2024)
-- [ ] Machine learning salary predictions
-- [ ] Career path analysis
-- [ ] Scholarship database integration
-- [ ] Premium features
-
-### Phase 4 (Q4 2024)
-- [ ] 1M+ monthly users
-- [ ] $100K+ annual revenue
-- [ ] Global expansion (Asia, Latin America)
-- [ ] Enterprise partnerships
-
----
-
-**Built with ❤️ for students worldwide**
+For Docker-based backend setup, see [`backend/docker-compose.yml`](./backend/docker-compose.yml). Before using Docker Compose outside local development, replace default credentials and review environment-specific settings.
