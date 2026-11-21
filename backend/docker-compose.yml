@@ -1,0 +1,127 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: roi-calculator-db
+    environment:
+      POSTGRES_DB: roi_calculator_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: karan143
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - roi-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d roi_calculator_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: roi-calculator-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/roi_calculator_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: karan143
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "8080:8080"
+    networks:
+      - roi-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # One-shot reference-data loader. Runs after the app has created the schema
+  # via Hibernate, and waits for it rather than relying on the HTTP healthcheck.
+  seed:
+    image: postgres:16-alpine
+    container_name: roi-calculator-seed
+    environment:
+      PGPASSWORD: karan143
+    volumes:
+      - ./src/main/resources/db:/seeds:ro
+    networks:
+      - roi-network
+    depends_on:
+      - app
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        echo "Waiting for the application schema..."
+        until psql -h postgres -U postgres -d roi_calculator_db -tAc \
+          "SELECT 1 FROM information_schema.tables WHERE table_name='salary_statistics'" | grep -q 1; do
+          sleep 2
+        done
+        echo "Loading base reference data..."
+        psql -v ON_ERROR_STOP=1 -h postgres -U postgres -d roi_calculator_db \
+          -f /seeds/seed_reference_data.sql
+        echo "Loading supplemental data..."
+        psql -v ON_ERROR_STOP=1 -h postgres -U postgres -d roi_calculator_db \
+          -f /seeds/seed_supplemental.sql
+        echo "Reference data loaded."
+    restart: "no"
+
+  # Redis (Optional - for caching)
+  redis:
+    image: redis:7-alpine
+    container_name: roi-calculator-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - roi-network
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # pgAdmin (Optional - for database management)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: roi-calculator-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@roicalculator.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    networks:
+      - roi-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  roi-network:
+    driver: bridge
+
+# Production deployment notes:
+# 1. Change all passwords and secrets
+# 2. Use environment variables or secrets management (AWS Secrets Manager, HashiCorp Vault)
+# 3. Set up SSL/TLS certificates
+# 4. Configure proper firewall rules
+# 5. Set up monitoring (Prometheus, Grafana)
+# 6. Configure backups for PostgreSQL
+# 7. Use managed database service in production (AWS RDS, Google Cloud SQL)
+# 8. Set up CI/CD pipeline (GitHub Actions, GitLab CI, Jenkins)

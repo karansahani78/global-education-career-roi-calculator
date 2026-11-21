@@ -1,0 +1,613 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   EduROI Design System — Paper / Ink / Signal Blue
+   ─────────────────────────────────────────────────────────────────────────────
+   Visual language: warm paper surfaces, deep ink type, a single blue signal
+   colour, hairline rules, pill controls, restrained elevation.
+
+   SCROLL CONTRACT (never violated):
+     • html, body, #root, page wrappers → NO overflow:hidden
+     • NO fixed heights on scroll containers
+     • NO position:fixed on page wrappers
+     • iOS -webkit-overflow-scrolling:touch preserved
+     • overscroll-behavior applied ONLY to non-page elements
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   [A] CROSS-DEVICE SAFETY
+═════════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    scroll-behavior: smooth;
+    /* NO overflow:hidden — scroll must flow freely */
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+    -webkit-overflow-scrolling: touch;
+    /* NO overflow:hidden — body must scroll */
+  }
+
+  a, button, [role="button"], summary {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  a, button, [role="button"], summary {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  input, textarea, select {
+    font-size: max(16px, 1em);
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Visible, consistent keyboard focus */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.16);
+    color: hsl(var(--foreground));
+  }
+
+  /* Thin, unobtrusive scrollbars on desktop */
+  @media (pointer: fine) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    }
+    *::-webkit-scrollbar { width: 8px; height: 8px; }
+    *::-webkit-scrollbar-track { background: transparent; }
+    *::-webkit-scrollbar-thumb {
+      background: hsl(var(--muted-foreground) / 0.25);
+      border-radius: 999px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+      background: hsl(var(--muted-foreground) / 0.4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .container {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+    width: 100%;
+  }
+
+  .results-dark-bg {
+    min-height: 100dvh;
+    background: hsl(var(--background));
+    /* NO height:100dvh — must allow content to grow and scroll freely */
+  }
+
+  .adsense-container,
+  ins.adsbygoogle {
+    overflow: hidden !important;
+    max-width: 100% !important;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .grid.sm\:grid-cols-2,
+    .grid.lg\:grid-cols-3 {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   [B] DESIGN TOKENS
+   Paper #f7f7f4 · Ink #1c253a · Signal blue #2a4bd0 · Line #dedfdc
+   Muted #656975 · Positive #15803d · Warning #b45309 · Negative #dc2626
+═════════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    --background: 60 17% 96%;
+    --foreground: 221 35% 17%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 221 35% 17%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 221 35% 17%;
+
+    --primary: 228 66% 49%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 174 72% 26%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 60 12% 92%;
+    --muted-foreground: 225 8% 43%;
+
+    --accent: 228 66% 49%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 145 63% 30%;
+    --success-foreground: 0 0% 100%;
+    --warning: 27 90% 37%;
+    --warning-foreground: 0 0% 100%;
+    --danger: 0 72% 48%;
+    --danger-foreground: 0 0% 100%;
+
+    --border: 60 5% 86%;
+    --input: 60 5% 80%;
+    --ring: 228 66% 49%;
+
+    --radius: 1rem;
+
+    --chart-1: 228 66% 49%;
+    --chart-2: 174 72% 26%;
+    --chart-3: 145 63% 30%;
+    --chart-4: 27 90% 37%;
+    --chart-5: 225 8% 43%;
+
+    --emerald: 145 63% 30%;
+    --emerald-light: 145 45% 93%;
+    --navy: 221 35% 17%;
+    --navy-light: 225 8% 43%;
+    --gold: 27 90% 37%;
+    --gold-light: 38 90% 94%;
+
+    --paper: 60 17% 96%;
+    --ink: 215 23% 8%;
+    --ink-muted: 213 12% 74%;
+
+    --sidebar-background: 60 17% 96%;
+    --sidebar-foreground: 221 35% 17%;
+    --sidebar-primary: 228 66% 49%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 60 12% 92%;
+    --sidebar-accent-foreground: 221 35% 17%;
+    --sidebar-border: 60 5% 86%;
+    --sidebar-ring: 228 66% 49%;
+
+    /* Design-system extensions */
+    --surface: 60 14% 93%;
+    --surface-raised: 0 0% 100%;
+    --shadow-card: 0 1px 2px hsl(221 35% 17% / 0.04), 0 10px 28px -20px hsl(221 35% 17% / 0.18);
+    --shadow-raised: 0 1px 2px hsl(221 35% 17% / 0.05), 0 22px 48px -28px hsl(221 35% 17% / 0.24);
+  }
+
+  /* Dark surface: same paper/ink hierarchy inverted, with brand ink panels
+     kept dark so white CTA labels retain their contrast. */
+  .dark {
+    color-scheme: dark;
+
+    --background: 222 30% 8%;
+    --foreground: 210 20% 95%;
+
+    --card: 220 22% 12%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 220 22% 14%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 217 91% 66%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 172 66% 52%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 220 18% 18%;
+    --muted-foreground: 215 16% 70%;
+
+    --accent: 217 91% 66%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 78% 62%;
+    --destructive-foreground: 222 47% 11%;
+
+    --success: 142 64% 52%;
+    --success-foreground: 222 47% 11%;
+    --warning: 38 92% 58%;
+    --warning-foreground: 222 47% 11%;
+    --danger: 0 78% 62%;
+    --danger-foreground: 222 47% 11%;
+
+    --border: 220 14% 23%;
+    --input: 220 12% 30%;
+    --ring: 217 91% 66%;
+
+    --chart-1: 217 91% 66%;
+    --chart-2: 172 66% 52%;
+    --chart-3: 142 64% 52%;
+    --chart-4: 38 92% 58%;
+    --chart-5: 215 16% 70%;
+
+    --emerald: 142 64% 52%;
+    --emerald-light: 145 40% 18%;
+    --navy: 221 35% 17%;
+    --navy-light: 215 16% 70%;
+    --gold: 38 92% 58%;
+    --gold-light: 35 45% 18%;
+
+    --paper: 222 30% 8%;
+    /* Slightly lifted from the page background so ink panels stay visible,
+       while remaining dark enough for white CTA labels. */
+    --ink: 220 22% 16%;
+    --ink-muted: 215 16% 70%;
+
+    --sidebar-background: 220 22% 12%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 217 91% 66%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 220 18% 20%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 220 14% 23%;
+    --sidebar-ring: 217 91% 66%;
+
+    --surface: 220 18% 15%;
+    --surface-raised: 220 18% 19%;
+    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.30), 0 12px 30px -18px hsl(0 0% 0% / 0.70);
+    --shadow-raised: 0 1px 2px hsl(0 0% 0% / 0.35), 0 24px 52px -28px hsl(0 0% 0% / 0.85);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+    text-wrap: balance;
+    font-weight: 500;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Native select/option readability on light surfaces */
+  option {
+    background: hsl(var(--popover));
+    color: hsl(var(--popover-foreground));
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   [C] COMPONENT UTILITIES (legacy class names preserved for compatibility)
+═════════════════════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  /* ── Surfaces ───────────────────────────────────────────────────────────── */
+  .glass-card {
+    overflow: hidden;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .glass-card-hover {
+    transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+  .glass-card-hover:hover {
+    background: hsl(var(--card));
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: var(--shadow-raised);
+    transform: translateY(-2px);
+  }
+
+  .glass-subtle {
+    background: hsl(var(--surface) / 0.7);
+    border: 1px solid hsl(var(--border));
+    border-radius: 14px;
+  }
+
+  .glass-input {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--input));
+    border-radius: 12px;
+    color: hsl(var(--foreground));
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .glass-input::placeholder {
+    color: hsl(var(--muted-foreground) / 0.7);
+  }
+  .glass-input:hover {
+    border-color: hsl(var(--muted-foreground) / 0.45);
+  }
+  .glass-input:focus,
+  .glass-input:focus-visible {
+    background: hsl(var(--card));
+    border-color: hsl(var(--primary) / 0.65);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.12);
+    outline: none;
+  }
+
+  /* ── Backgrounds ────────────────────────────────────────────────────────── */
+  .gradient-hero {
+    background: hsl(var(--background));
+  }
+
+  .gradient-card {
+    background: hsl(var(--card));
+  }
+
+  .gradient-accent,
+  .gradient-purple,
+  .gradient-blue {
+    background: hsl(var(--primary));
+  }
+  .gradient-gold,
+  .gradient-orange {
+    background: hsl(var(--warning));
+  }
+  .gradient-rose {
+    background: hsl(var(--secondary));
+  }
+  .gradient-mint {
+    background: hsl(var(--success));
+  }
+
+  /* ── Text accents: solid, editorial colour ───────────────────────────────── */
+  .text-gradient-hero {
+    color: hsl(var(--foreground));
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .text-gradient-purple,
+  .text-gradient-accent,
+  .text-gradient-blue {
+    color: hsl(var(--primary));
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .text-gradient-rose {
+    color: hsl(var(--secondary));
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .text-gradient-mint {
+    color: hsl(var(--success));
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  /* ── Elevation ──────────────────────────────────────────────────────────── */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-card-hover {
+    box-shadow: var(--shadow-raised);
+  }
+  .shadow-hero {
+    box-shadow: var(--shadow-raised);
+  }
+
+  /* ── Glows → restrained elevation only ──────────────────────────────────── */
+  .glow-rose,
+  .glow-mint,
+  .glow-purple,
+  .glow-blue {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ── Decorative orbs disabled for a flat, premium surface ───────────────── */
+  .ambient-orb {
+    display: none;
+  }
+
+  /* ── Shared page furniture ──────────────────────────────────────────────── */
+  .page-shell {
+    position: relative;
+    min-height: 100%;
+    background: hsl(var(--background));
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .section-rule {
+    height: 1px;
+    width: 100%;
+    background: hsl(var(--border));
+  }
+
+  .ink-panel {
+    background: hsl(var(--ink));
+    color: #e9edf1;
+  }
+  .ink-panel .eyebrow {
+    color: #b2bbc7;
+  }
+
+  /* Subtle paper grain, used on decorative layers only */
+  .grain-paper {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain-paper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='240'%20height='240'%20viewBox='0%200%20240%20240'%3e%3cfilter%20id='paper'%3e%3cfeTurbulence%20type='fractalNoise'%20baseFrequency='0.87'%20numOctaves='3'%20stitchTiles='stitch'%20seed='37'/%3e%3cfeColorMatrix%20type='saturate'%20values='0'/%3e%3c/filter%3e%3cpath%20filter='url(%23paper)'%20opacity='.6'%20d='M0%200h240v240H0z'/%3e%3c/svg%3e");
+  }
+  .dark .grain-paper::after {
+    opacity: 0.12;
+    mix-blend-mode: screen;
+  }
+
+  /* Compact inline links (footer, prose) should not inherit 44px hit boxes */
+  .footer-link,
+  .prose-blog a,
+  .prose a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 0;
+  }
+  .prose-blog a,
+  .prose a {
+    display: inline;
+  }
+
+  .prose-blog {
+    color: hsl(var(--muted-foreground));
+    line-height: 1.8;
+  }
+  .prose-blog > * + * { margin-top: 1rem; }
+  .prose-blog h2 {
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: hsl(var(--foreground));
+  }
+  .prose-blog h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+  .prose-blog ul { list-style: disc; padding-left: 1.5rem; }
+  .prose-blog ol { list-style: decimal; padding-left: 1.5rem; }
+  .prose-blog li { margin-bottom: 0.4rem; }
+  .prose-blog strong { color: hsl(var(--foreground)); font-weight: 600; }
+  .prose-blog em { color: hsl(var(--foreground)); font-style: italic; }
+  .prose-blog a {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .prose-blog a:hover { text-decoration: none; }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   [M] EDUROI JOURNEY VISUAL — hero animation
+   Accent palette: charcoal #111315 · royal blue #2563EB · tangerine #F97316
+   The supplied GIF carries its own motion; the backdrop only adds depth.
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+.journey-stage {
+  isolation: isolate;
+}
+
+.journey-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  width: 104%;
+  aspect-ratio: 1;
+  transform: translate3d(-50%, -50%, 0);
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(37, 99, 235, 0.14) 0%,
+    rgba(37, 99, 235, 0.055) 44%,
+    transparent 70%
+  );
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.journey-visual {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .journey-halo {
+    animation: journey-halo 9s ease-in-out infinite;
+  }
+}
+
+@keyframes journey-halo {
+  0%,
+  100% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 1;
+  }
+}
