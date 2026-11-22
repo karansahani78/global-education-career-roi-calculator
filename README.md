@@ -154,7 +154,7 @@ flowchart LR
 │       ├── dto/                        # Request/response DTOs
 │       └── config/                     # Configuration/security/exception handling
 ├── docs/                               # Academic documentation
-│   ├── Passau_Final_Year_Project_Summary_Karan_Sahani.pdf
+│   ├── Project_Summary.pdf
 │   └── Project-Report on ROI CALCULATOR.pdf
 └── frontend/                           # React + TypeScript frontend
     ├── package.json
@@ -174,7 +174,7 @@ The complete submitted academic report is available in the repository:
 
 For the Passau application project summary, see:
 
-- [docs/Passau_Final_Year_Project_Summary_Karan_Sahani.pdf](./docs/Passau_Final_Year_Project_Summary_Karan_Sahani.pdf)
+- [docs/Project_Summary.pdf](./docs/Project_Summary.pdf)
 
 The original report file has been preserved and is not modified by this documentation update.
 
